@@ -1,0 +1,16 @@
+{application, emarkdown,
+ [{description, "Markdown converter based on devinus/markdown but in Erlang"},
+  {vsn, "0.1.0"},
+  {id, "emarkdown"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+  {maintainers, ["Inaka"]},
+  {licenses,["Apache 2.0"]},
+  {links, [{"Github","https://github.com/inaka/emarkdown"}]},
+  {build_tools, ["rebar3"]}
+ ]}.

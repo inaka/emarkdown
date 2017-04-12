@@ -88,7 +88,7 @@ to_html(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
 }
 
 static ErlNifFunc funcs[] = {
-  { "to_html", 2, to_html }
+  { "to_html", 2, to_html, 0 }
 };
 
 static int

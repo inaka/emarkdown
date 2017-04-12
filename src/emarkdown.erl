@@ -6,13 +6,13 @@
 -define(APPNAME, emarkdown).
 -define(LIBNAME, emarkdown).
 
--spec to_html(binary()) -> no_return().
+-spec to_html(binary()) -> binary().
 to_html(Markdown) ->
   to_html(Markdown, []).
 
--spec to_html(binary(), []) -> no_return().
+-spec to_html(binary(), []) -> binary().
 to_html(_, _) ->
-  not_loaded(?LINE).
+  erlang:nif_error(not_loaded).
 
 init() ->
   SoName = case code:priv_dir(?APPNAME) of
@@ -27,7 +27,3 @@ init() ->
       filename:join(Dir, ?LIBNAME)
   end,
   erlang:load_nif(SoName, 0).
-
--spec not_loaded(binary()) -> no_return().
-not_loaded(Line) ->
-  exit({not_loaded, [{module, ?MODULE}, {line, Line}]}).

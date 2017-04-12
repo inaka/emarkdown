@@ -6,18 +6,7 @@ CFLAGS = -g -O3 -ansi -Wall -Wextra -Wno-unused-parameter
 ERLANG_PATH = $(shell erl -eval 'io:format("~s", [lists:concat([code:root_dir(), "/erts-", erlang:system_info(version), "/include"])])' -s init stop -noshell)
 CFLAGS += -I$(ERLANG_PATH)
 
-REBAR = $(shell which rebar3 || echo ./rebar3)
-ifdef REBAR_PROFILE
-PROFILE = $(REBAR_PROFILE)
-else
-PROFILE = default
-endif
-
-ifeq ($(wildcard $(BASEDIR)/_build),)
-    HOEDOWN_PATH = $(BASEDIR)/../hoedown
-else
-    HOEDOWN_PATH = $(BASEDIR)/_build/$(PROFILE)/lib/hoedown
-endif
+HOEDOWN_PATH = $(BASEDIR)/lib/hoedown
 
 CFLAGS += -I$(HOEDOWN_PATH)/src
 
@@ -33,14 +22,7 @@ endif
 
 all: emarkdown
 
-emarkdown:
-	if [ ! -d "$(HOEDOWN_PATH)" ]; then \
-		curl -L https://github.com/hoedown/hoedown/archive/3.0.7.tar.gz | tar zx; \
-		$(RM) -fr $(HOEDOWN_PATH); \
-		mv hoedown-3.0.7 $(HOEDOWN_PATH); \
-  fi
-
-../priv/emarkdown.so: emarkdown emarkdown.c
+../priv/emarkdown.so: emarkdown.c
 	$(MAKE) -C $(HOEDOWN_PATH) libhoedown.a
 	$(CC) $(CFLAGS) -shared $(LDFLAGS) -o $@ emarkdown.c $(HOEDOWN_PATH)/libhoedown.a
 
